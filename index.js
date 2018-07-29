@@ -17,7 +17,7 @@ app.get('/', function(req, res){
 
 app.get("/button/", function(req, res){
 	res.sendFile(__dirname + '/button.html');
-}
+});
 
 
 io.on('connection', function(socket){
