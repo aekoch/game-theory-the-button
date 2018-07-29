@@ -2,22 +2,26 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+	<div class="container mw-100 py-5">
+		<div id="messages-container" style="height:80px; overflow-y:auto;">
+			<table class="table table-striped">
+				<tbody id="messages">
+				</tbody>
+			</table>
+		</div>
+		<form class="action="">
+		  <div class="input-group my-3">
+			  <input id="m" type="text" class="form-control" placeholder="Message">
+			<div class="input-group-append"><button class="btn btn-primary" type="button">Send</button>
+			</div>
+		</form>
+	</div>
+		
+	</div>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
@@ -29,7 +33,9 @@
 		  return false;
 		});
 		socket.on('chat message', function(msg){
-			$('#messages').append($('<li>').text(msg));
+			$('#messages').append($('<tr><td>').text(msg));
+			var scroll_box = $("#messages-container");
+			scroll_box.scrollTop(scroll_box.prop("scrollHeight"));
 		});
 	  });
 	</script>
