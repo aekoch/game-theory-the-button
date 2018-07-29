@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<style>
+	.big-red-button{
+		border-radius:50%;
+		height: 100px 
+		width: 100px;
+		padding: 100px 100px;
+		background-color: red;
+	}
+	.center{
+		display:block;
+		margin: auto;
+		text-align: center;
+	}
+	</style>
+  </head>
+  <body>
+	<div>
+		<h1 id="reward_text" style="text-align:center">Reward: 100</h1>
+		<h3 id="timer_text" style="text-align:center">59:159</h3>
+		<button class="big-red-button center" id="the-button">Click Me</button>
+		<h1 id="score_text" style="text-align:center">My score: 1000</h1>
+		<p style="text-align:center">Somebody just received 100 points</p>
+	</div>	
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+	integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script>
+	
+	var timer = $("#timer_text");
+	var reward = $("#reward_text");
+	var startTime = Date.now();
+	$(function () {
+		resetTimer();
+		var socket = io();
+		$('form').submit(function(){
+		  socket.emit('chat message', $('#m').val());
+		  $('#m').val('');
+		  return false;
+		});
+		socket.on('chat message', function(msg){
+			$('#messages').append($('<li>').text(msg));
+		});
+		
+	});
+	  
+	function resetTimer() {
+		setInterval(tick, 33);
+	}
+	  
+	function tick(){
+		var now = Date.now();
+		var seconds = 59 - Math.floor(((now - startTime) % 60000) / 1000);
+		var millis = 1000 - (now - startTime) % 1000;
+		var timerString = "";
+		timerString = pad("00", seconds.toString(), true);
+		timerString += ":";
+		timerString += pad("000", millis.toString(), true);
+		timer.text(timerString);
+		
+	}
+	
+	function setReward(seconds){
+		
+	}
+	
+	function onBigButtonPress(){
+		
+	}
+	
+	function pad(pad, str, padLeft) {
+	  if (typeof str === 'undefined') 
+		return pad;
+	  if (padLeft) {
+		return (pad + str).slice(-pad.length);
+	  } else {
+		return (str + pad).substring(0, pad.length);
+	  }
+	}
+	</script>
+	
+  </body>
+  
+</html>

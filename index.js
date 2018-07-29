@@ -15,6 +15,11 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
+app.get("/button/", function(req, res){
+	res.sendFile(__dirname + '/button.html');
+}
+
+
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('chat message', function(data){
